@@ -1,2 +1,6 @@
 fastapi==0.89.1
 uvicorn==0.20.0
+httplib2~=0.21.0
+apiclient~=1.0.4
+google-api-python-client~=2.72.0
+oauth2client~=4.1.3
