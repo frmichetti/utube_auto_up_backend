@@ -317,3 +317,11 @@ async def uploadVideo(video: Video):
         print (err)
         return {"error": "Internal Error"}
     return video
+
+
+class RedirectPayload(BaseModel):
+    redirect_uri: str
+
+@app.post('/oauth')
+def sendOkToGoogle(payload: RedirectPayload):    
+  return {"success": True, "payload": payload}

@@ -7,6 +7,8 @@ uvicorn main:app --reload --port 8000
 
 python upload_video.py --file="./test_video_file.mp4" --title="Teste de Envio de video Pelo script Python"    --description="Este video foi enviado pelo script automatizado" --keywords="Programador Malandro" --category="22"   --privacyStatus="private"
 
+--noauth_local_webserver
+
 {
   "file": "./test_video_file.mp4",
   "title": "Teste de Envio de video Pela API FAST do Python",
