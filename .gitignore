@@ -195,3 +195,4 @@ _requirements.txt
 
 client_secrets.json
 upload_video.py-oauth2.json
+client_secret_fast_api.json

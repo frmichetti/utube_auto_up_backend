@@ -101,7 +101,7 @@ RETRIABLE_STATUS_CODES = [500, 502, 503, 504]
 #   https://developers.google.com/youtube/v3/guides/authentication
 # For more information about the client_secrets.json file format, see:
 #   https://developers.google.com/api-client-library/python/guide/aaa_client_secrets
-CLIENT_SECRETS_FILE = "client_secrets.json"
+CLIENT_SECRETS_FILE = "client_secret_fast_api.json"
 
 # This OAuth 2.0 access scope allows an application to upload files to the
 # authenticated user's YouTube channel, but doesn't allow other types of access.
@@ -338,5 +338,32 @@ class Item(BaseModel):
 
 
 @app.post('/upload_test')
-async def create_item(item: Item):
+async def createItem(item: Item):
     return item
+
+class Video(BaseModel):
+    file: str
+    title: str
+    description: str
+    keywords: str
+    category: str
+    privacyStatus: str   
+
+@app.post('/upload_video')
+async def uploadVideo(video: Video):
+    args = {
+     "file": video.file,
+     "title": video.title,
+     "description": video.description,
+     "category": video.category,
+     "keywords": video.keywords,
+     "privacyStatus": video.privacyStatus     
+     }
+
+    youtube = get_authenticated_service(args)
+    try:
+        initialize_upload(youtube, args)
+    except HttpError as e:
+        print(("An HTTP error %d occurred:\n%s") % (e.resp.status, e.content))
+
+    return video
