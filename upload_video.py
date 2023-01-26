@@ -174,6 +174,10 @@ if __name__ == '__main__':
   if not os.path.exists(args.file):
     exit("Please specify a valid file using the --file= parameter.")
 
+  print("ARGSSSSS")
+  print(args)
+  print("ARGSSSSS")
+  
   youtube = get_authenticated_service(args)
   try:
     initialize_upload(youtube, args)

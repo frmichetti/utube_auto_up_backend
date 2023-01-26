@@ -3,6 +3,7 @@ import time
 from fastapi import FastAPI
 from pydantic import BaseModel
 from typing import Union
+from argparse import Namespace
 
 import http.client
 import httplib2
@@ -295,12 +296,20 @@ async def uploadVideo(video: Video):
         category = video.category,
         keywords = video.keywords,
         privacyStatus = video.privacyStatus,
-        logging_level = "DEBUG"          
+        logging_level = "DEBUG",    
+        auth_host_name = "localhost",
+        auth_host_port = [8080, 8090],
+        noauth_local_webserver = False      
     )
+
+    namespaceArgs = Namespace(**args)
     
     try:
-        youtube = get_authenticated_service(args)
-        initialize_upload(youtube, args)
+        print("ARGSSSSS")
+        print(namespaceArgs)
+        print("ARGSSSSS")
+        youtube = get_authenticated_service(namespaceArgs)
+        initialize_upload(youtube, namespaceArgs)
     except HttpError as e:
         print(("An HTTP error %d occurred:\n%s") % (e.resp.status, e.content))
     except Exception as err:
