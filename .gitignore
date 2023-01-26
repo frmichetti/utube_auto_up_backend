@@ -193,7 +193,7 @@ poetry.toml
 
 _requirements.txt
 
-client_secrets.json
+client_secret_script.json
 upload_video.py-oauth2.json
 client_secret_fast_api.json
 
