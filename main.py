@@ -83,8 +83,7 @@ def get_authenticated_service(args):
   
   
   flow = flow_from_clientsecrets(
-    prompt=True,
-    filename=fullPathSecret,
+    fullPathSecret,
     scope=YOUTUBE_UPLOAD_SCOPE,
     message=MISSING_CLIENT_SECRETS_MESSAGE
     )  
@@ -289,15 +288,15 @@ class Video(BaseModel):
 
 @app.post('/upload_video')
 async def uploadVideo(video: Video):
-    args = {
-     "file": video.file,
-     "title": video.title,
-     "description": video.description,
-     "category": video.category,
-     "keywords": video.keywords,
-     "privacyStatus": video.privacyStatus,
-     "logging_level": "DEBUG"     
-     }
+    args = dict(
+        file = video.file,
+        title = video.title,
+        description = video.description,
+        category = video.category,
+        keywords = video.keywords,
+        privacyStatus = video.privacyStatus,
+        logging_level = "DEBUG"          
+    )
     
     try:
         youtube = get_authenticated_service(args)
