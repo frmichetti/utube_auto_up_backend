@@ -44,7 +44,7 @@ RETRIABLE_STATUS_CODES = [500, 502, 503, 504]
 #   https://developers.google.com/youtube/v3/guides/authentication
 # For more information about the client_secrets.json file format, see:
 #   https://developers.google.com/api-client-library/python/guide/aaa_client_secrets
-CLIENT_SECRETS_FILE = "client_secret_fast_api.json"
+CLIENT_SECRETS_FILE = "client_secret_script.json"
 
 # This OAuth 2.0 access scope allows an application to upload files to the
 # authenticated user's YouTube channel, but doesn't allow other types of access.
@@ -90,7 +90,7 @@ def get_authenticated_service(args):
     )  
 
   # verify me
-  storage = Storage(fullPathStorageFile)
+  storage = Storage("%s-oauth2.json" % sys.argv[0])
   credentials = storage.get()
 
   if credentials is None or credentials.invalid:
@@ -298,7 +298,7 @@ async def uploadVideo(video: Video):
         privacyStatus = video.privacyStatus,
         logging_level = "DEBUG",    
         auth_host_name = "localhost",
-        auth_host_port = [8080, 8090],
+        auth_host_port = [8080, 8090, 8000],
         noauth_local_webserver = False      
     )
 
@@ -309,9 +309,11 @@ async def uploadVideo(video: Video):
         print(namespaceArgs)
         print("ARGSSSSS")
         youtube = get_authenticated_service(namespaceArgs)
-        initialize_upload(youtube, namespaceArgs)
+        initialize_upload(youtube, namespaceArgs, namespaceArgs)
     except HttpError as e:
-        print(("An HTTP error %d occurred:\n%s") % (e.resp.status, e.content))
+      msg = ("An HTTP error %d occurred:\n%s") % (e.resp.status, e.content)
+      print(msg)
+      return {"error": msg }
     except Exception as err:
         print("Internal Error")
         print (err)
