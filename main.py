@@ -134,7 +134,7 @@ def initialize_upload(youtube, options, args):
     media_body=MediaFileUpload(options.file, chunksize=-1, resumable=True)
   )
 
-#  resumable_upload(insert_request, args)
+  resumable_upload(insert_request, args)
 
 # This method implements an exponential backoff strategy to resume a
 # failed upload.
@@ -173,9 +173,11 @@ def resumable_upload(insert_request, args):
 
   youtube = get_authenticated_service(args)
   try:
-    initialize_upload(youtube, args)
+    initialize_upload(youtube, args, args)
   except HttpError as e:
-    print(("An HTTP error %d occurred:\n%s") % (e.resp.status, e.content))
+      msg = ("An HTTP error %d occurred:\n%s") % (e.resp.status, e.content)
+      print(msg)
+      return {"error": msg }
 
 
 app = FastAPI()
